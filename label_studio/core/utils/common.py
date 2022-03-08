@@ -131,7 +131,10 @@ def create_hash():
 
 
 def paginator(objects, request, default_page=1, default_size=50):
-    """ Get from request page and page_size and return paginated objects
+    """ DEPRECATED
+    TODO: change to standard drf pagination class
+
+    Get from request page and page_size and return paginated objects
 
     :param objects: all queryset
     :param request: view request object
@@ -140,6 +143,9 @@ def paginator(objects, request, default_page=1, default_size=50):
     :return: paginated objects
     """
     page_size = request.GET.get('page_size', request.GET.get('length', default_size))
+    if settings.VERSION_EDITION != 'Community' and (int(page_size) > 100 or page_size == '-1'):
+        page_size = 100
+
     if 'start' in request.GET:
         page = int_from_request(request.GET, 'start', default_page)
         page = page / int(page_size) + 1

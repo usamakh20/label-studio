@@ -131,6 +131,7 @@ class TaskPagination(PageNumberPagination):
     page_size_query_param = "page_size"
     total_annotations = 0
     total_predictions = 0
+    max_page_size = 100
 
     def paginate_queryset(self, queryset, request, view=None):
         self.total_predictions = Prediction.objects.filter(task_id__in=queryset).count()
